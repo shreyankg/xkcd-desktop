@@ -7,6 +7,9 @@ Sets the background white. You could configue it to your taste.
 
 I'm using Humor-Sans font[1] for the text.
 
+Recommended: Put a crontab as such,
+0 15 * * mon,wed,fri python /path/to/xkcd.py
+
 NOTE: Works only on GNOME now. 
 TODO: Add support for other desktop environments.
 
