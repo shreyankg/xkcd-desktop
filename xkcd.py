@@ -63,39 +63,50 @@ call(["wget",
     url])
 
 # Image processing to put text onto the image
+
+# Initiatize font objects
 header_font = ImageFont.truetype(FONT, HEAD)
 footer_font = ImageFont.truetype(FONT, FOOT)
 
+# Calculate text sizes
 head_size = header_font.getsize(title)
-foot_size_single = footer_font.getsize(footer[0])
-foot_size = (foot_size_single[0], 
-    (foot_size_single[1]) * (len(footer)) + (len(footer)) * 5)
+foot_sizes_hor = [footer_font.getsize(foot)[0] for foot in footer]
+foot_size_ver = footer_font.getsize("test")[1]
 
+# Open original image
 xkcd = Image.open(TMPFILE)
 
+# Calculate size of the new image
 new_size = (
-    max(xkcd.size[0], head_size[0], foot_size[0]),
-    (xkcd.size[1] + head_size[1] + foot_size[1] + 20))
+    max(foot_sizes_hor + [xkcd.size[0], head_size[0]]),
+    (xkcd.size[1] + head_size[1] + 
+        (foot_size_ver + 5)*len(footer) + 20))
 
+# New image instance
 out = Image.new('RGB', new_size, '#ffffff')
+
+# Start drawing
+draw = ImageDraw.Draw(out)
 
 head_position = (
     (new_size[0] - head_size[0])/2,
     5)
-foot_position_ver =  xkcd.size[1] + head_size[1] + 5
-
-draw = ImageDraw.Draw(out)
 
 draw.text(head_position, title, font=header_font, fill=TEXT_COLOR)
-for foot in footer:
-    internal_foot_size = footer_font.getsize(foot)
-    foot_position_hor = (new_size[0] - internal_foot_size[0])/2
-    foot_position_ver = foot_position_ver + 5 + internal_foot_size[1]
+
+# For each line in footer
+for index, foot in enumerate(footer):
+    foot_position_hor = (new_size[0] - foot_sizes_hor[index])/2
+    foot_position_ver = xkcd.size[1] + head_size[1] + (index *
+        (foot_size_ver + 5)) + 15
     foot_position = (foot_position_hor, foot_position_ver)
     draw.text(foot_position, foot, font=footer_font, fill=TEXT_COLOR)
 
+# Delete draw object 
 del draw 
-xkcd_position = (max(0, (foot_size[0] - xkcd.size[0])/2),
+
+# Paster original image
+xkcd_position = ((new_size[0] -xkcd.size[0])/2,
     head_size[1] + 10)
 out.paste(xkcd, xkcd_position)
 out.save(TMPFILE, FORMAT)  
