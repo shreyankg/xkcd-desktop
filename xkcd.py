@@ -19,6 +19,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import os.path
 import urllib
 import json
 from subprocess import call
@@ -26,8 +27,9 @@ import Image, ImageDraw, ImageFont
 
 TMPFILE = "/tmp/xkcd.png"
 XKCD_URL = "http://xkcd.com/info.0.json"
+BACKGROUND = "#ffffffffffff"
 
-FONT = "/usr/share/fonts/truetype/Humor-Sans.ttf"
+FONT = os.path.abspath("Humor-Sans.ttf")
 HEAD = 25
 FOOT = 15
 FORMAT = "PNG"
@@ -123,13 +125,13 @@ call(["gconftool-2",
     "str",
     "--set",
     "/desktop/gnome/background/primary_color",
-    "#ffffffffffff"])
+    BACKGROUND])
 call(["gconftool-2",
     "-t",
     "str",
     "--set",
     "/desktop/gnome/background/secondary_color",
-    "#ffffffffffff"])
+    BACKGROUND])
 call(["gconftool-2",
     "-t",
     "str",

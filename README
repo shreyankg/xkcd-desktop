@@ -1,0 +1,14 @@
+xkcd-desktop.py
+---------------
+
+Fetches the latest XKCD comics and places it as your desktop background.
+Uses XKCD's json interface http://xkcd.com/info.0.json
+Sets the background white. You could configue it to your taste.
+
+I'm using Humor-Sans font[1] for the text.
+
+NOTE: Works only on GNOME now. 
+TODO: Add support for other desktop environments.
+
+[1]
+http://xkcdsucks.blogspot.com/2009/03/xkcdsucks-is-proud-to-present-humor.html
