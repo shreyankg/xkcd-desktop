@@ -29,7 +29,8 @@ TMPFILE = "/tmp/xkcd.png"
 XKCD_URL = "http://xkcd.com/info.0.json"
 BACKGROUND = "#ffffffffffff"
 
-FONT = os.path.abspath("Humor-Sans.ttf")
+FONT = os.path.join(os.path.dirname(__file__)
+    , "Humor-Sans.ttf")
 HEAD = 25
 FOOT = 15
 FORMAT = "PNG"
